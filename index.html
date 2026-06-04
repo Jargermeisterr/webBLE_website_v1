@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitance Grid WebBLE</title>
+</head>
+
+<body>
+    <h1>ESP32S3 WebBLE Application</h1>
+
+    <button id="connectBleButton">Connect to ESP32S3</button>
+    <button id="disconnectBleButton">Disconnect ESP32S3</button>
+
+    <p>BLE status: <strong><span id="bleState" style="color:#d13a30;">Disconnected</span></strong></p>
+
+    <h2>Received Value</h2>
+
+    <p><span id="valueContainer">NaN</span></p>
+    <p>Last reading datetime: <span id="timestamp"></span></p>
+
+    <script src="main.js"></script>
+    
+</body>
+<style src="main.css"></style>
+</html>
