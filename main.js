@@ -34,12 +34,19 @@ function isWebBluetoothEnabled() {
     return true
 };
 
-function handleCharacteristicChange(event){
-    const newValueReceived = new TextDecoder().decode(event.target.value);
-    console.log("Characteristic value changed: ", newValueReceived);
-    retrievedValue.innerHTML = newValueReceived;
+function handleCharacteristicChange(event) {
+    const value = event.target.value;
+    let decodedValue = "";
+    
+    // Decode thủ công từng byte sang ký tự (An toàn 100% trên Bluefy)
+    for (let i = 0; i < value.byteLength; i++) {
+        decodedValue += String.fromCharCode(value.getUint8(i));
+    }
+    
+    console.log("Characteristic value changed: ", decodedValue);
+    retrievedValue.innerHTML = decodedValue;
     timestampContainer.innerHTML = getDateTime();
-};
+}
 
 // Connect to BLE Device and Enable Notifications
 function connectToDevice(){
@@ -63,27 +70,24 @@ function connectToDevice(){
     .then(service => {
         bleServiceFound = service;
         console.log("Service discovered:", service.uuid);
-        // Đã sửa: dùng biến bleCharacteristic
-        return service.getCharacteristic(bleCharacteristic); 
+        return service.getCharacteristic(bleCharacteristic);
     })
     .then(characteristic => {
         console.log("Characteristic discovered:", characteristic.uuid);
-        // Đã sửa: dùng biến bleCharacteristicFound
-        bleCharacteristicFound = characteristic; 
+        bleCharacteristicFound = characteristic;
         
+        // Lắng nghe sự kiện
         characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
-        characteristic.startNotifications();
-        console.log("Notifications Started.");
-        return characteristic.readValue();
+        
+        // Phải return Promise này để đợi nó setup xong
+        return characteristic.startNotifications(); 
     })
-    .then(value => {
-        console.log("Read value: ", value);
-        const decodedValue = new TextDecoder().decode(value);
-        console.log("Decoded value: ", decodedValue);
-        retrievedValue.innerHTML = decodedValue;
+    .then(() => {
+        console.log("Notifications Started Successfully.");
     })
     .catch(error => {
         console.log('Error: ', error);
+        window.alert('Error: ' + error.message); 
     })
 };
 
