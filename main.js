@@ -1,6 +1,11 @@
 const connectButton = document.getElementById('connectBleButton');
 const disconnectButton = document.getElementById('disconnectBleButton');
-const retrievedValue = document.getElementById('valueContainer');
+
+const retrievedValue1 = document.getElementById('valueContainer1');
+const retrievedValue2 = document.getElementById('valueContainer2');
+const retrievedValue3 = document.getElementById('valueContainer3');
+const retrievedValue4 = document.getElementById('valueContainer4');
+
 const bleStateContainer = document.getElementById('bleState');
 const timestampContainer = document.getElementById('timestamp');
 
@@ -44,7 +49,35 @@ function handleCharacteristicChange(event) {
     }
     
     console.log("Characteristic value changed: ", decodedValue);
-    retrievedValue.innerHTML = decodedValue;
+
+    // Tách chuỗi bằng ký tự phân tách '|'
+    // Ví dụ: "Normal|98.54|12|450" -> ["Normal", "98.54", "12", "450"]
+    const dataParts = decodedValue.split('|');
+
+    // Kiểm tra xem chuỗi nhận được có đủ 4 thành phần hay không
+    if (dataParts.length === 4) {
+        const label = dataParts[0];
+        const confidence = dataParts[1];
+        const inferenceTime = dataParts[2];
+        const inferenceCount = dataParts[3];
+
+        // Cập nhật từng giá trị riêng biệt lên giao diện HTML
+        retrievedValue1.innerHTML = label;
+        retrievedValue2.innerHTML = confidence + "%"; // Thêm ký tự % cho trực quan
+        retrievedValue3.innerHTML = inferenceTime + " ms"; // Thêm đơn vị ms
+        retrievedValue4.innerHTML = inferenceCount;
+    } else {
+        // Trường hợp chuỗi lỗi hoặc không đúng định dạng mong muốn
+        console.warn("Dữ liệu nhận được không đúng định dạng:", decodedValue);
+        
+        // Hiển thị chuỗi thô để dễ debug nếu cần
+        retrievedValue1.innerHTML = decodedValue;
+        retrievedValue2.innerHTML = "Err";
+        retrievedValue3.innerHTML = "Err";
+        retrievedValue4.innerHTML = "Err";
+    }
+    
+    // Cập nhật thời gian nhận mẫu cuối cùng
     timestampContainer.innerHTML = getDateTime();
 }
 
