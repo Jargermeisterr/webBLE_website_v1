@@ -1,5 +1,3 @@
-/* style.css - Giao diện mới hiện đại cho ESP32S3 WebBLE */
-
 /* Khởi tạo CSS */
 * {
     box-sizing: border-box;
@@ -8,141 +6,135 @@
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Phông chữ hiện đại hơn */
-    background-color: #f8f9fc; /* Màu nền xám nhạt */
-    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #2c3e50;
     display: flex;
-    justify-content: center; /* Căn giữa nội dung theo chiều ngang */
-    padding: 30px;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 12px;
 }
 
+/* Container chính bao trọn màn hình iPhone 14 */
 .content-wrapper {
-    max-width: 900px;
     width: 100%;
+    max-width: 370px; /* Vừa vặn chiều rộng iPhone 14 (393px trừ padding) */
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
     text-align: center;
 }
 
 h1 {
-    font-size: 2.2rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: #1a1a1a;
-    margin-bottom: 25px;
-    letter-spacing: -0.5px;
+    margin-bottom: 12px;
 }
 
-h2 {
-    font-size: 1.5rem;
-    color: #555;
-    margin-top: 35px;
-    margin-bottom: 20px;
-    text-align: left; /* Tiêu đề phần căn trái */
+/* Khu vực nút bấm điều khiển */
+.btn-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
-/* Kiểu dáng cho các nút bấm */
 button {
+    flex: 1;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: white;
-    padding: 12px 24px;
-    margin: 10px;
+    padding: 10px;
     border: none;
     cursor: pointer;
-    border-radius: 8px; /* Bo tròn vừa phải */
-    transition: background-color 0.2s ease, transform 0.1s ease; /* Hiệu ứng chuyển động */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    transition: transform 0.1s ease, opacity 0.2s;
 }
 
 button:active {
-    transform: translateY(1px); /* Hiệu ứng nhấn nút */
+    transform: scale(0.97);
 }
 
 .connectButton {
-    background-color: #24af37; /* Màu xanh lá tươi */
-}
-
-.connectButton:hover {
-    background-color: #1f9430; /* Tối hơn một chút khi hover */
+    background-color: #24af37;
 }
 
 .disconnectButton {
-    background-color: #d13a30; /* Màu đỏ */
+    background-color: #d13a30;
 }
 
-.disconnectButton:hover {
-    background-color: #a82e26; /* Tối hơn một chút khi hover */
-}
-
-/* Phần hiển thị trạng thái BLE */
-p:has(#bleState) {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
+/* Trạng thái BLE */
+.status-bar {
+    font-size: 0.8rem;
+    background-color: #f8f9fa;
+    padding: 6px 12px;
+    border-radius: 20px;
     display: inline-block;
+    margin-bottom: 16px;
+    border: 1px solid #eef2f5;
+}
+
+h2 {
+    font-size: 0.95rem;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    text-align: left;
 }
 
-#bleState {
-    font-weight: 700;
-}
-
-/* Card Grid Layout hiện đại */
+/* Thiết lập Grid 2x2 cho các Card hiển thị nhỏ gọn */
 .card-grid {
     display: grid;
-    grid-gap: 25px;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Linh hoạt trên nhiều màn hình */
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    margin-bottom: 16px;
 }
 
-/* Kiểu dáng cho mỗi Card */
+/* Style cho các mini card */
 .card {
-    background-color: white;
-    padding: 25px;
-    border-radius: 15px; /* Bo tròn lớn hơn */
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08); /* Bóng đổ mờ hơn, đẹp hơn */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    text-align: left; /* Nội dung card căn trái */
+    background-color: #fdfdfd;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #eaeaea;
+    text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 75px; /* Giới hạn chiều cao card */
 }
 
-.card:hover {
-    transform: translateY(-5px); /* Hiệu ứng hover cho card */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-}
-
-/* Phông chữ cho nhãn dữ liệu (nhỏ và xám) */
 .gray-label {
-    color: #888;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-transform: uppercase; /* Chữ in hoa */
-    letter-spacing: 0.8px;
-    margin-bottom: 8px;
+    color: #95a5a6;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 2px;
 }
 
-/* Phông chữ cho giá trị đọc (lớn và đậm) */
 .reading {
-    font-size: 2rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Tránh tràn chữ nếu chuỗi dài */
 }
 
-/* Thêm màu sắc đặc biệt cho các giá trị nếu cần (trong main.js) */
-#valueContainer1 {
-    color: #007bff; /* Nhãn màu xanh dương */
-}
+/* Màu sắc nhấn cho dữ liệu AI */
+#valueContainer1 { color: #007bff; }
+#valueContainer2 { color: #17a2b8; }
+#valueContainer3 { color: #ff9f43; }
+#valueContainer4 { color: #28c76f; }
 
-#valueContainer2 {
-    color: #17a2b8; /* Độ chính xác màu xanh tiffany */
-}
-
-/* Thời gian cập nhật */
-p:has(#timestamp) {
-    margin-top: 25px;
-    font-size: 0.9rem;
-    color: #777;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
+/* Khu vực hiển thị thời gian cập nhật */
+.footer-timestamp {
+    font-size: 0.75rem;
+    color: #b2bec3;
+    border-top: 1px solid #f1f2f6;
+    padding-top: 8px;
+    text-align: center;
 }

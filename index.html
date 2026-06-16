@@ -3,45 +3,50 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Capacitance Grid WebBLE</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="content-wrapper">
-        <h1>ESP32S3 WebBLE Application</h1>
+        <h1>ESP32S3 WebBLE</h1>
 
-        <button id="connectBleButton" class="connectButton">Connect to ESP32S3</button>
-        <button id="disconnectBleButton" class="disconnectButton">Disconnect ESP32S3</button>
+        <div class="btn-group">
+            <button id="connectBleButton" class="connectButton">Connect</button>
+            <button id="disconnectBleButton" class="disconnectButton">Disconnect</button>
+        </div>
 
-        <p>BLE status: <strong><span id="bleState" style="color:#d13a30;">Disconnected</span></strong></p>
+        <div class="status-bar">
+            BLE status: <strong><span id="bleState" style="color:#d13a30;">Disconnected</span></strong>
+        </div>
 
         <h2>Received Value</h2>
         
         <div class="card-grid">
             <div class="card">
-                <p class="gray-label">Label:</p>
-                <p class="reading"><span id="valueContainer1">NaN</span></p>
+                <p class="gray-label">Label</p>
+                <p class="reading"><span id="valueContainer1">-</span></p>
             </div>
             <div class="card">
-                <p class="gray-label">Confidence:</p>
-                <p class="reading"><span id="valueContainer2">NaN</span></p>
+                <p class="gray-label">Confidence</p>
+                <p class="reading"><span id="valueContainer2">-</span></p>
             </div>
             <div class="card">
-                <p class="gray-label">Inference Time:</p>
-                <p class="reading"><span id="valueContainer3">NaN</span></p>
+                <p class="gray-label">Inference</p>
+                <p class="reading"><span id="valueContainer3">-</span></p>
             </div>
             <div class="card">
-                <p class="gray-label">Count:</p>
-                <p class="reading"><span id="valueContainer4">NaN</span></p>
+                <p class="gray-label">Count</p>
+                <p class="reading"><span id="valueContainer4">-</span></p>
             </div>
         </div>
 
-        <p><i>Last reading time:</i> <span id="timestamp"></span></p>
+        <div class="footer-timestamp">
+            <i>Last update:</i> <span id="timestamp">N/A</span>
+        </div>
     </div>
 
     <script src="main.js"></script>
-    
 </body>
 </html>

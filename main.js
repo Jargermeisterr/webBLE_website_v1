@@ -43,41 +43,35 @@ function handleCharacteristicChange(event) {
     const value = event.target.value;
     let decodedValue = "";
     
-    // Decode thủ công từng byte sang ký tự (An toàn 100% trên Bluefy)
     for (let i = 0; i < value.byteLength; i++) {
         decodedValue += String.fromCharCode(value.getUint8(i));
     }
     
     console.log("Characteristic value changed: ", decodedValue);
 
-    // Tách chuỗi bằng ký tự phân tách '|'
-    // Ví dụ: "Normal|98.54|12|450" -> ["Normal", "98.54", "12", "450"]
+    // Tách chuỗi dữ liệu định dạng: Label|Confidence|InferenceTime|InferenceCount
     const dataParts = decodedValue.split('|');
 
-    // Kiểm tra xem chuỗi nhận được có đủ 4 thành phần hay không
     if (dataParts.length === 4) {
+        // Ép kiểu hiển thị số thập phân gọn hơn nếu cần (ví dụ lấy 1 chữ số sau dấu phẩy)
         const label = dataParts[0];
-        const confidence = dataParts[1];
+        const confidence = parseFloat(dataParts[1]).toFixed(1); // 98.54 -> 98.5
         const inferenceTime = dataParts[2];
         const inferenceCount = dataParts[3];
 
-        // Cập nhật từng giá trị riêng biệt lên giao diện HTML
+        // Cập nhật lên các mini card
         retrievedValue1.innerHTML = label;
-        retrievedValue2.innerHTML = confidence + "%"; // Thêm ký tự % cho trực quan
-        retrievedValue3.innerHTML = inferenceTime + " ms"; // Thêm đơn vị ms
+        retrievedValue2.innerHTML = confidence + "%";
+        retrievedValue3.innerHTML = inferenceTime + "ms";
         retrievedValue4.innerHTML = inferenceCount;
     } else {
-        // Trường hợp chuỗi lỗi hoặc không đúng định dạng mong muốn
-        console.warn("Dữ liệu nhận được không đúng định dạng:", decodedValue);
-        
-        // Hiển thị chuỗi thô để dễ debug nếu cần
-        retrievedValue1.innerHTML = decodedValue;
-        retrievedValue2.innerHTML = "Err";
-        retrievedValue3.innerHTML = "Err";
-        retrievedValue4.innerHTML = "Err";
+        console.warn("Dữ liệu không đúng định dạng:", decodedValue);
+        retrievedValue1.innerHTML = "Err";
+        retrievedValue2.innerHTML = "-";
+        retrievedValue3.innerHTML = "-";
+        retrievedValue4.innerHTML = "-";
     }
     
-    // Cập nhật thời gian nhận mẫu cuối cùng
     timestampContainer.innerHTML = getDateTime();
 }
 
